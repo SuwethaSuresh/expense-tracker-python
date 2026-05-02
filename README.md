@@ -15,4 +15,5 @@ A simple command-line application to manage daily expenses.
 
 ## Author
 Suwetha S
+
 GitHub: https://github.com//SuwethaSuresh
