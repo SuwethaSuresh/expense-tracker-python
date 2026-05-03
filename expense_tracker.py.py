@@ -12,16 +12,22 @@ def load_expenses():
     except:
         expenses = []
 
-# Save data to file
+# Save expenses to file
 def save_expenses():
     with open("expenses.json", "w") as file:
-        json.dump(expenses, file)
+        json.dump(expenses, file,indent=4)
 
 # Add expense
 def add_expense():
     try:
-        amount = float(input("Enter amount: "))
-        category = input("Enter category: ")
+        amount = float(input("Enter amount: ").strip())
+        if amount<=0:
+            print('Amount must be greater than 0!\n')
+            return
+        category = input("Enter category: ").strip()
+        if not category:
+            print('Category cannot be empty!\n')
+            return
         date = datetime.now().strftime("%Y-%m-%d")
 
         expense = {
@@ -35,36 +41,59 @@ def add_expense():
         print("Expense added successfully!\n")
 
     except:
-        print("Invalid input!\n")
+        print("Invalid input! Please enter correct values.\n")
 
 # View all expenses
 def view_expenses():
     if not expenses:
         print("No expenses found.\n")
         return
-
+    print('\n===== All Expenses =====')
     for i, exp in enumerate(expenses, 1):
-        print(f"{i}. ₹{exp['amount']} | {exp['category']} | {exp['date']}")
+        print(f"{i}.Amount: ₹{exp['amount']} | Category: {exp['category']} | Date: {exp['date']}")
     print()
 
 # Calculate total
 def total_expense():
+    if not expenses:
+        print('No Expenses to calculate.\n')
+        return
     total = sum(exp["amount"] for exp in expenses)
     print(f"Total Expense: ₹{total}\n")
 
 # Filter by category
 def filter_category():
-    cat = input("Enter category to filter: ")
+    cat = input("Enter category to filter: ").strip()
     found = False
-
+    print('\n===== Filtered Expenses =====')
     for exp in expenses:
         if exp["category"].lower() == cat.lower():
-            print(f"₹{exp['amount']} | {exp['date']}")
+            print(f"Amount: ₹{exp['amount']} | Date: {exp['date']}")
             found = True
 
     if not found:
         print("No matching category found.")
     print()
+
+# Delete expense
+def delete_expense():
+    view_expenses()
+
+    if not expenses:
+        return
+
+    try:
+        index = int(input("Enter expense number to delete: ").strip()) - 1
+
+        if 0 <= index < len(expenses):
+            removed = expenses.pop(index)
+            save_expenses()
+            print(f"🗑️ Deleted: ₹{removed['amount']} ({removed['category']})\n")
+        else:
+            print("❌ Invalid index!\n")
+
+    except:
+        print("❌ Invalid input!\n")
 
 # Menu
 def menu():
@@ -76,9 +105,10 @@ def menu():
         print("2. View Expenses")
         print("3. Total Expense")
         print("4. Filter by Category")
-        print("5. Exit")
+        print("5. Delete Expenses")
+        print("6. Exit")
 
-        choice = input("Enter choice: ")
+        choice = input("Enter choice: ").strip()
 
         if choice == "1":
             add_expense()
@@ -89,6 +119,8 @@ def menu():
         elif choice == "4":
             filter_category()
         elif choice == "5":
+            delete_expenses()
+        elif choice=="6":
             print("Exiting...")
             break
         else:
