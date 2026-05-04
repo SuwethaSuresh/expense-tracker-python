@@ -95,6 +95,20 @@ def delete_expense():
     except:
         print("❌ Invalid input!\n")
 
+def search_by_date():
+    date_input = input("Enter date (YYYY-MM-DD): ").strip()
+    found = False
+
+    print("\n===== Expenses on Given Date =====")
+    for exp in expenses:
+        if exp["date"] == date_input:
+            print(f"Amount: ₹{exp['amount']} | Category: {exp['category']}")
+            found = True
+
+    if not found:
+        print("No expenses found for this date.")
+    print()
+
 # Menu
 def menu():
     load_expenses()
@@ -105,8 +119,9 @@ def menu():
         print("2. View Expenses")
         print("3. Total Expense")
         print("4. Filter by Category")
-        print("5. Delete Expenses")
-        print("6. Exit")
+        print("5. Delete Expense")
+        print("6. Search by Date")
+        print("7. Exit")
 
         choice = input("Enter choice: ").strip()
 
@@ -119,12 +134,12 @@ def menu():
         elif choice == "4":
             filter_category()
         elif choice == "5":
-            delete_expenses()
-        elif choice=="6":
-            print("Exiting...")
-            break
-        else:
-            print("Invalid choice!\n")
+            delete_expense()
+        elif choice == "6":
+            search_by_date()
+        elif choice == "7":
+            print("👋 Exiting... Goodbye!")
+    break
 
 # Run program
 menu()
