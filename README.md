@@ -66,6 +66,7 @@ expense-tracker-python/
 👩‍💻 Author
 
 Suwetha S
+
 GitHub: https://github.com/SuwethaSuresh
 
 ---
