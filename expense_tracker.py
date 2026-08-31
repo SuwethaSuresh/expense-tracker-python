@@ -139,7 +139,7 @@ def menu():
             search_by_date()
         elif choice == "7":
             print("👋 Exiting... Goodbye!")
-    break
+            break
 
 # Run program
 menu()
